@@ -2436,13 +2436,13 @@ normalized server configs."
    :on-error (lambda (error)
                (agent-shell--update-fragment
                 :state state
-                :block-id "unknown-errors"
-                :label-left (propertize "Notices" 'font-lock-face 'font-lock-doc-markup-face)
+                :block-id (format "%s-notices"
+                                  (map-elt state :request-count))
+                :label-left (propertize "Notices" 'font-lock-face 'font-lock-doc-markup-face) ;;
                 :body (or (map-elt error 'message)
                           (map-elt error 'data)
-                          "Some notice ¯\\_ (ツ)_/¯")
-                :create-new t
-                :navigation 'never)))
+                          "Something is up ¯\\_ (ツ)_/¯")
+                :append t)))
   (acp-subscribe-to-notifications
    :client (map-elt state :client)
    :on-notification (lambda (notification)
